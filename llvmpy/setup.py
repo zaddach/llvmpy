@@ -22,6 +22,7 @@ def get_libs_and_objs(components):
 
 
 incdir = run_llvm_config(['--includedir'])
+buildincdir = os.path.join(run_llvm_config(['--obj-root']), "include")
 libdir = run_llvm_config(['--libdir'])
 ldflags = run_llvm_config(['--ldflags'])
 macros = [('__STDC_CONSTANT_MACROS', None),
@@ -47,12 +48,12 @@ libs_core, objs_core = get_libs_and_objs(components + nvptx)
 
 ext_modules = [Extension(name='_api',
                          sources=['api.cpp'],
-                         include_dirs=['include', incdir],
-                         library_dirs=[libdir],
-                         libraries=libs_core,
-                         define_macros=macros,
-                         extra_objects=objs_core,
-                         extra_link_args=extra_link_args),
+                         include_dirs = ['include', incdir, buildincdir],
+                         library_dirs = [libdir],
+                         libraries = libs_core,
+                         define_macros = macros,
+                         extra_objects = objs_core,
+                         extra_link_args = extra_link_args),
                Extension(name='_capsule',
                          sources=['capsule.cpp'],
                          include_dirs=['include'], ),

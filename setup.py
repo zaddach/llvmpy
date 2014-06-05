@@ -70,13 +70,14 @@ def auto_intrinsic_gen(incdir):
     if llvm_version.startswith('3.3') or llvm_version.startswith('3.4'):
         path = "%s/llvm/IR/Intrinsics.gen" % incdir
     else:
-        path = "%s/llvm/Intrinsics.gen" % incdir
+        path = "%s/llvm/Intrinsics.gen" % buildincdir
 
     with open('llvm/_intrinsic_ids.py', 'w') as fout:
         intrgen.gen(path, fout)
 
 
 incdir = run_llvm_config(['--includedir'])
+buildincdir = os.path.join(run_llvm_config(['--obj-root']), 'include')
 libdir = run_llvm_config(['--libdir'])
 ldflags = run_llvm_config(['--ldflags'])
 
@@ -150,12 +151,12 @@ kwds = dict(
         Extension(
             name='llvmpy._api',
             sources=['llvmpy/api.cpp'],
-            define_macros=macros,
-            include_dirs=[incdir, 'llvmpy/include'],
-            library_dirs=[libdir],
-            libraries=libs_core,
-            extra_objects=objs_core,
-            extra_link_args=extra_link_args),
+            define_macros = macros,
+            include_dirs = [incdir, buildincdir, 'llvmpy/include'],
+            library_dirs = [libdir],
+            libraries = libs_core,
+            extra_objects = objs_core,
+            extra_link_args = extra_link_args),
 
         Extension(
             name='llvmpy._capsule',
