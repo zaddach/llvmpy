@@ -2063,6 +2063,8 @@ class BasicBlock(Value):
     def successors(self):
         """Returns a list of successor basic blocks.
         """
+        if not hasattr(self.terminator._ptr, "getSuccessor"):
+            return []
         return list(map(_make_value, map(self.terminator._ptr.getSuccessor,
             range(0, self.terminator._ptr.getNumSuccessors()))))
 
