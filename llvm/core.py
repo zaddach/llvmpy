@@ -1794,6 +1794,24 @@ class NamedMetaData(llvm.Wrapper):
     def add(self, operand):
         self._ptr.addOperand(operand._ptr)
 
+    @property
+    def operand_count(self):
+        return self._ptr.getNumOperands()
+
+    @property
+    def operands(self):
+        """Yields operands of this metadata."""
+        res = []
+        for i in range(self.operand_count):
+            op = self._ptr.getOperand(i)
+            if op is None:
+                res.append(None)
+            else:
+                res.append(_make_value(op))
+        return res
+        
+
+
 
 #===----------------------------------------------------------------------===
 # Instruction
