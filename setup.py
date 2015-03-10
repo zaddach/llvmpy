@@ -154,10 +154,10 @@ else:
     extra_components = list(extra_components & enabled_components)
 
     libs_core, objs_core = get_libs_and_objs(
-        ['core', 'analysis', 'scalaropts', 'executionengine', 'mcjit',
+        ['core', 'support', 'analysis', 'scalaropts', 'executionengine', 'mcjit',
          'jit', 'native', 'interpreter', 'bitreader', 'bitwriter',
          'instrumentation', 'ipa', 'ipo', 'transformutils',
-         'asmparser', 'linker', 'support', 'vectorize', 'all-targets']
+         'asmparser', 'linker', 'vectorize', 'all-targets']
         + extra_components)
 
 if sys.platform == 'win32':

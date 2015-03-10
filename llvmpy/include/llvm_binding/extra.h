@@ -33,6 +33,7 @@
 #include <llvm/Analysis/Verifier.h>
 #include <llvm/PassRegistry.h>
 #include <llvm/Support/Host.h>
+#include <llvm/DebugInfo.h>
 
 #include <llvm/ExecutionEngine/MCJIT.h> // to make MCJIT working
 
@@ -1067,6 +1068,12 @@ PyObject* llvm_sys_isBigEndianHost()
         Py_RETURN_TRUE;
     else
         Py_RETURN_FALSE;
+}
+
+static PyObject* DIDescriptor_getMDNode(llvm::DIDescriptor *dd)
+{
+    llvm::MDNode *md = *dd;
+    return pycapsule_new(md, "llvm::Value", "llvm::MDNode");
 }
 #endif
 
